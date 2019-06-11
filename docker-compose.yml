@@ -23,39 +23,6 @@ services:
     ports: ['27017:27017']
     networks: ['stack']
 
-  servicebot:
-    image: servicebot/servicebot
-    container_name: servicebot
-    environment:
-        POSTGRES_DB_PORT : "5432"
-        POSTGRES_DB_HOST : "db"
-        POSTGRES_DB_USER : "servicebot_u"
-        POSTGRES_DB_PASSWORD : "secret_doggo"
-        POSTGRES_DB_NAME : "sb_db"
-        PORT: "3000"
-    volumes:
-       - upload-data:/usr/src/app/uploads
-       - environment-file:/usr/src/app/env
-    links:
-      - servicedb
-    ports: ['80:3000','443:3001']
-    command: ["sh", "-c", "node /usr/src/app/bin/wait-for-it.js db 5432  && npm run-script start"]
-    networks: ['stack']
-
-  servicedb:
-    image: postgres
-    container_name: postgres
-    networks: ['stack']
-    environment:
-      POSTGRES_USER: "servicebot_u"
-      POSTGRES_PASSWORD : "secret_doggo"
-      POSTGRES_DB : "sb_db"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    ports: ['5432']
-
-
-
   redis:
     image: redis
     container_name: redis
@@ -160,9 +127,7 @@ networks: {stack: {}}
 # use docker volume to persist ES data outside of a container.
 volumes:
   es_data:
-  upload-data:
-  environment-file:
-  db-data:
+
 
 
 secrets:
