@@ -9,7 +9,7 @@ ifndef GIT_BRANCH
 GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 endif
 
-TARGETS := apm-server elasticsearch logstash kibana beats
+TARGETS := elasticsearch logstash kibana 
 
 images: $(TARGETS)
 push: $(TARGETS:%=%-push)
@@ -31,4 +31,3 @@ $(TARGETS:%=%-clean):
 		docker-compose -f docker-compose.setup.yml -f docker-compose.yml down --remove-orphans && \
 		docker-compose -f setup.yml down --remove-orphans && \
 		docker volume rm stack-docker_es_data
-
